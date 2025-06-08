@@ -22,3 +22,7 @@ def parallelGetBetweennessMeasures(graph):
     avg = np.mean(data)
     std = np.std(data)
     return { "min": min, "max": max, "avg": avg, "std": std }
+
+def parallel_get_betweenness_list(graph):
+    betweennessDict = nxp.betweenness_centrality(graph)
+    return np.array( [val for val in betweennessDict.values()] )
