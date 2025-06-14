@@ -1,5 +1,7 @@
 import nx_parallel as nxp
 import numpy as np
+import powerlaw
+
 def parallel_get_distance_measures(graph):
     max_distance = 0
     avg_distance = 0
@@ -17,3 +19,7 @@ def parallel_get_distance_measures(graph):
 def parallel_get_betweenness_list(graph):
     betweenness_dict = nxp.betweenness_centrality(graph)
     return np.array( [val for val in betweenness_dict.values()] )
+
+def get_powerlaw_result(degree_list):
+    result = powerlaw.Fit(degree_list)
+    return result.alpha, result.xmin
