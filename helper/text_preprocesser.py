@@ -67,7 +67,7 @@ def filter_tokens(text: list, remove_stopwords=False, language="de") -> list[str
         return [ word for word in text if word.isalpha() and word not in punctuation ]
     stop = get_stopwords(language)
     stop_and_punctuation = stop.union(punctuation)
-    return [ word for word in text if word.isalpha() and word not in stop_and_punctuation ]
+    return [ word for word in text if word.isalpha() and word.lower() not in stop_and_punctuation ]
 
 def lemmatize(text: list, greedy=True, language="de"):
     return [ simplemma.lemmatize(token, lang=language, greedy=greedy) for token in text ]
