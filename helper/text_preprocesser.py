@@ -24,7 +24,7 @@ def prepare_text(text, lemmatize=True, greedy=False):
 ####Allgemeine, zusammenfassende Methoden
 def prepare_text_with_libraries(text: str, filterNouns=False, remove_stopwords=True, language="de") -> list[str]:
     t = tokenize(text, language=language)
-    t = filter_tokens(lemmatize(t, language=language), remove_stopwords=remove_stopwords)
+    t = filter_tokens(lemmatize(t, language=language), remove_stopwords=remove_stopwords, language=language)
 
     # Solange imports nicht funktionieren, können auch keine Nomen gefiltert werden
 
