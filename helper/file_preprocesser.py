@@ -7,6 +7,12 @@ import simplemma
 
 WHITELIST = string.ascii_lowercase + "äüöß "
 
+def extract_metadata_from_file_name(file_name):
+    splitted_name = file_name[:-4].split("_")
+    author = splitted_name[0]
+    title = splitted_name[1]
+    language = splitted_name[2]
+    return author, title, language
 
 # TAGGER_DE = ht.HanoverTagger('morphmodel_ger.pgz') #for POS Tagging
 # TAGGER_EN = ht.HanoverTagger('morphmodel_en.pgz')
