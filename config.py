@@ -1,8 +1,8 @@
 # Allgemeiner Pfad zu den Daten
-DATA_PATH = "data/input/"
+DATA_PATH = "data/input/test"
 
 # networkX-Einstellungen
-PARALLEL = False
+PARALLEL = True
 N_JOBS = 4
 
 # Textverarbeitung
@@ -15,6 +15,7 @@ ATTRIBUTES_VISIBLE_IN_FILE = [
     "author",
     "title",
     "language",
+    "token_list_length",
     "node_count",
     "edge_count",
     "average_degree",
