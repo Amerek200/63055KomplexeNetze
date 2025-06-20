@@ -1,9 +1,4 @@
-#goal: process every file once with stopwords=true, once with stopwords=false
-
-#function that processes every book in input folder with stopwords, parallel, etc. as param
-#this function can be run from main method
 from importlib import reload
-from itertools import chain
 import logging
 import sys
 import time
@@ -152,4 +147,3 @@ def logUncaughtExceptions(exc_type, exc_value, exc_traceback):
 
 if __name__ == '__main__':
     run()
-    print("hello word")
