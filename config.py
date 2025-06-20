@@ -2,11 +2,8 @@
 DATA_PATH = "data/input/"
 
 # networkX-Einstellungen
-ACTIVE_PARALLEL = True
-N_JOBS = 4
-
-# Parallelität
 PARALLEL = False
+N_JOBS = 4
 
 # Textverarbeitung
 REMOVE_STOPWORDS = False
