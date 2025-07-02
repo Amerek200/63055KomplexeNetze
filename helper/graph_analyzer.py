@@ -1,4 +1,5 @@
 import nx_parallel as nxp
+import networkx as nx
 import numpy as np
 import powerlaw
 
@@ -23,3 +24,32 @@ def parallel_get_betweenness_list(graph):
 def get_powerlaw_result(degree_list):
     result = powerlaw.Fit(degree_list)
     return result.alpha, result.xmin
+
+def find_word_regiment_candidates(deg_prob_dict, start=10, step=10):
+    sorted_tuple_list = [(deg, deg_prob_dict[deg]) for deg in sorted(deg_prob_dict.keys())]
+    res = dict()
+    for i in range(start, len(sorted_tuple_list), step):
+        left = sorted_tuple_list[:i]
+        right = sorted_tuple_list[i:]
+        deg_left = [t[1] for t in left]
+        deg_right = [t[1] for t in right]
+        powerlaw_left = powerlaw.Fit(deg_left, xmin = min(deg_left) )
+        powerlaw_right = powerlaw.Fit(deg_right, xmin= (min(deg_right)))
+        res[i] = { "left": powerlaw_left.alpha, "right": powerlaw_right.alpha}
+    #sort by difference between left-right regmiment, desc
+    res = dict(sorted(
+        res.items(), 
+        key=lambda item: abs(item[1]["left"] - item[1]["right"]),
+        reverse=True
+        ))
+    return res
+	
+def getDegProbabilityDict(graph):
+    deg_frequency_list = np.array(nx.degree_histogram(graph))
+    total_nodes = graph.order()
+    res = {}
+    for deg in range(len(deg_frequency_list)):
+        if deg_frequency_list[deg] == 0: continue
+        else:
+            res[deg] = deg_frequency_list[deg] / total_nodes
+    return res
