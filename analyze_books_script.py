@@ -38,8 +38,9 @@ def run():
     nx.config.backends.parallel.n_jobs = config.N_JOBS
     logger.info(str.format("NetworkX backend config: {0}", nx.config.backends))
 
-    process_files(True, config.LINK_DISTANCE)
     process_files(False, config.LINK_DISTANCE)
+    process_files(True, config.LINK_DISTANCE)
+    
 
 def process_files(remove_stopwords: bool, link_distance: int):
     logger = logging.getLogger(LOGGER_NAME)

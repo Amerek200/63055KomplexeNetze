@@ -1,9 +1,9 @@
 # Allgemeiner Pfad zu den Daten
-DATA_PATH = "data/input/test"
+DATA_PATH = "data/input"
 
 # networkX-Einstellungen
 PARALLEL = True
-N_JOBS = 4
+N_JOBS = 16
 
 # Textverarbeitung
 REMOVE_STOPWORDS = False

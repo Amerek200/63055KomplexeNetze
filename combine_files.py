@@ -2,7 +2,7 @@
 from os import listdir
 from os.path import isfile, join
 
-DATA_PATH = "data/input"
+DATA_PATH = "data/input/de"
 
 # Liste mit Dateinamen von Büchern
 file_name_list = [f for f in listdir(DATA_PATH) if isfile(join(DATA_PATH, f)) and f.endswith("_de.txt")]
