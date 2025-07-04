@@ -25,18 +25,27 @@ def get_powerlaw_result(degree_list):
     result = powerlaw.Fit(degree_list)
     return result.alpha, result.xmin
 
-def find_word_regiment_candidates(deg_prob_dict, start=10, step=10):
+def find_word_regiment_candidates(deg_prob_dict, start=10, stop=0, step=10, max_diff=5):
+    print(str.format("unterschiedliche Knotengrade im Dictionary: {0}", len(deg_prob_dict)))
     sorted_tuple_list = [(deg, deg_prob_dict[deg]) for deg in sorted(deg_prob_dict.keys())]
+    print(sorted_tuple_list)
     res = dict()
-    for i in range(start, len(sorted_tuple_list), step):
+    for i in range(start, stop if stop != 0 else len(sorted_tuple_list), step):
         left = sorted_tuple_list[:i]
         right = sorted_tuple_list[i:]
         deg_left = [t[1] for t in left]
         deg_right = [t[1] for t in right]
-        powerlaw_left = powerlaw.Fit(deg_left, xmin = min(deg_left) )
-        powerlaw_right = powerlaw.Fit(deg_right, xmin= (min(deg_right)))
-        res[i] = { "left": powerlaw_left.alpha, "right": powerlaw_right.alpha}
+        try:
+            powerlaw_left = powerlaw.Fit(deg_left, xmin = min(deg_left) )
+            powerlaw_right = powerlaw.Fit(deg_right, xmin= (min(deg_right)))
+            #if np.isinf(powerlaw_left.alpha) or np.isinf(powerlaw_right.alpha): continue
+            res[i] = { "left": powerlaw_left.alpha, "right": powerlaw_right.alpha}
+        except Exception as e:
+            print(f"Skipping {i} due to error: {e}")
+            continue
+    
     #sort by difference between left-right regmiment, desc
+    res = dict(filter(lambda item: abs(item[1]["left"] - item[1]["right"]) <= max_diff, res.items()))
     res = dict(sorted(
         res.items(), 
         key=lambda item: abs(item[1]["left"] - item[1]["right"]),
@@ -44,7 +53,7 @@ def find_word_regiment_candidates(deg_prob_dict, start=10, step=10):
         ))
     return res
 	
-def getDegProbabilityDict(graph):
+def get_deg_probability_dict(graph):
     deg_frequency_list = np.array(nx.degree_histogram(graph))
     total_nodes = graph.order()
     res = {}
@@ -53,3 +62,6 @@ def getDegProbabilityDict(graph):
         else:
             res[deg] = deg_frequency_list[deg] / total_nodes
     return res
+
+def hello():
+    print("HI")
