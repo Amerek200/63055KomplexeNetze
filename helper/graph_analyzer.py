@@ -27,6 +27,7 @@ def get_powerlaw_result(degree_list):
 
 def find_word_regiment_candidates(deg_prob_dict, start=10, stop=0, step=10, max_diff=5):
     print(str.format("unterschiedliche Knotengrade im Dictionary: {0}", len(deg_prob_dict)))
+    maxDeg = max(deg_prob_dict.keys())
     sorted_tuple_list = [(deg, deg_prob_dict[deg]) for deg in sorted(deg_prob_dict.keys())]
     print(sorted_tuple_list)
     res = dict()
@@ -38,12 +39,51 @@ def find_word_regiment_candidates(deg_prob_dict, start=10, stop=0, step=10, max_
         try:
             powerlaw_left = powerlaw.Fit(deg_left, xmin = min(deg_left) )
             powerlaw_right = powerlaw.Fit(deg_right, xmin= (min(deg_right)))
-            #if np.isinf(powerlaw_left.alpha) or np.isinf(powerlaw_right.alpha): continue
             res[i] = { "left": powerlaw_left.alpha, "right": powerlaw_right.alpha}
         except Exception as e:
             print(f"Skipping {i} due to error: {e}")
             continue
     
+    #sort by difference between left-right regmiment, desc
+    res = dict(filter(lambda item: abs(item[1]["left"] - item[1]["right"]) <= max_diff, res.items()))
+    res = dict(sorted(
+        res.items(), 
+        key=lambda item: abs(item[1]["left"] - item[1]["right"]),
+        reverse=True
+        ))
+    return res
+
+def find_word_regiment_candidates_grouped(deg_prob_dict, start=0, stop=0, step=1, max_diff=5):
+    max_deg = max(deg_prob_dict.keys())
+    #create neccessary buckets
+    bucket_dict = dict()
+    i = 0 #small world of human language starts at 2. (no 2^0=1), but this clashes with the largest power <= deg binning method.
+    while 2**i < max_deg:
+        bucket_dict[2**i] = 0
+        i += 1
+    print(str.format("max degree: {0}, Anzahl Buckets: {1}", max_deg, len(bucket_dict)))
+    #fill buckets, not sure by which method papers groups so we take largest power of two <= deg
+    for deg, prob in deg_prob_dict.items():
+        bucket = 2 ** int(np.floor(np.log2(deg)))
+        #print(str.format("deg: {0}, bin: {1}", deg, bucket))
+        bucket_dict[bucket] = bucket_dict[bucket] + prob
+
+    sorted_tuple_list = [(bucket, bucket_dict[bucket]) for bucket in sorted(bucket_dict.keys())]
+    res = dict()
+    for i in range(start, stop if stop != 0 else len(sorted_tuple_list), step):
+        left = sorted_tuple_list[start:i]
+        right = sorted_tuple_list[i:]
+        probs_left = [t[1] for t in left]
+        probs_right = [t[1] for t in right]
+        try:
+            powerlaw_left = powerlaw.Fit(probs_left, xmin = min(probs_left) )
+            powerlaw_right = powerlaw.Fit(probs_right, xmin= (min(probs_right)))
+            #if np.isinf(powerlaw_left.alpha) or np.isinf(powerlaw_right.alpha): continue
+            res[i] = { "left": powerlaw_left.alpha, "right": powerlaw_right.alpha}
+        except Exception as e:
+            print(f"Skipping {i} due to error: {e}")
+            continue
+
     #sort by difference between left-right regmiment, desc
     res = dict(filter(lambda item: abs(item[1]["left"] - item[1]["right"]) <= max_diff, res.items()))
     res = dict(sorted(
@@ -62,6 +102,3 @@ def get_deg_probability_dict(graph):
         else:
             res[deg] = deg_frequency_list[deg] / total_nodes
     return res
-
-def hello():
-    print("HI")
