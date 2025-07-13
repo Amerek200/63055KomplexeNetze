@@ -6,9 +6,9 @@ PARALLEL = True
 N_JOBS = 4
 
 # Textverarbeitung
-REMOVE_STOPWORDS = True
+REMOVE_STOPWORDS = False
 LINK_DISTANCE = 1
-FIXED_TOKEN_COUNT = 13062
+FIXED_TOKEN_COUNT = 25396 #13062 #0
 
 # Ausgabe
 ATTRIBUTES_VISIBLE_IN_FILE = [
@@ -29,6 +29,8 @@ ATTRIBUTES_VISIBLE_IN_FILE = [
     "average_clustering",
     "powerlaw_alpha_value",
     "powerlaw_xmin_value",
+    "lin_reg_approximation",
+    "assortativity_coefficient",
     "stopwords_removed",
     "link_distance",
     "fixed_token_count"
