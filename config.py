@@ -33,3 +33,19 @@ ATTRIBUTES_VISIBLE_IN_FILE = [
     "link_distance",
     "fixed_token_count"
 ]
+
+FEATURES_USED_BY_CLASSIFIER = [
+            'node_count',
+            'edge_count',
+            'average_degree',
+            'median_degree',
+            'diameter',
+            'average_distance',
+            'betweenness_average',
+            'betweenness_min',
+            'betweenness_max',
+            'betweenness_standard_deviation',
+            'average_clustering',
+            'powerlaw_alpha_value',
+            'powerlaw_xmin_value'
+]
