@@ -49,5 +49,6 @@ FEATURES_USED_BY_CLASSIFIER = [
             'betweenness_standard_deviation',
             'average_clustering',
             'powerlaw_alpha_value',
-            'powerlaw_xmin_value'
+            'powerlaw_xmin_value',
+            'assortativity_coefficient'
 ]
