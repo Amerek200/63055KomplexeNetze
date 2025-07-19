@@ -44,7 +44,7 @@ FEATURES_USED_BY_CLASSIFIER = [
             'diameter',
             'average_distance',
             'betweenness_average',
-            'betweenness_min',
+            # 'betweenness_min', # <- rausgeschmissen, da überall 0
             'betweenness_max',
             'betweenness_standard_deviation',
             'average_clustering',
