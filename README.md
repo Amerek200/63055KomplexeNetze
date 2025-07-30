@@ -1,4 +1,8 @@
-# Aufbau des Repositorys
+# Begleitcode zur schriftlichen Ausarbeitung "Anwendung von komplexen Netzen zur Textanalyse"
+
+Dieses Projekt wurde im Kontext einer schriftlichen Ausarbeitung des Seminars "Komplexe Netze" der Fern-Universität in Hagen erstellt. 
+
+# Aufbau und Nutzung des Repositorys
 Der Code orientiert sich im wesentlichen an der schriftlichen Ausarbeitung:
 
 Zuerst wurden zu den in der Arbeit genannten Büchern **Co-Occurence-Netzwerke gebildet, um dann zu diesen jeweils die Netzwerkmetriken zu erfassen**. Dieser Vorgang findet in `analyze_books.ipynb` statt. Die Bücher können als txt-Dateien im Ordner `data/input` abgelegt werden (die Benennung der Bücher sollte diesem Namensschema folgen: `Autor_Buchtitel_Sprache.txt`). Dann werden die Metriken zu den Netzen berechnet, um die Ergebnisse im Verzeichnis `data/output` unter dem Dateinamen `output.csv` zu speichern.
