@@ -8,7 +8,7 @@ N_JOBS = 4
 # Textverarbeitung
 REMOVE_STOPWORDS = False
 LINK_DISTANCE = 1
-FIXED_TOKEN_COUNT = 25396 #13062 #0
+FIXED_TOKEN_COUNT = 25396  # 13062 #0
 
 # Ausgabe
 ATTRIBUTES_VISIBLE_IN_FILE = [
@@ -37,18 +37,18 @@ ATTRIBUTES_VISIBLE_IN_FILE = [
 ]
 
 FEATURES_USED_BY_CLASSIFIER = [
-            'node_count',
-            'edge_count',
-            'average_degree',
-            'median_degree',
-            'diameter',
-            'average_distance',
-            'betweenness_average',
-            # 'betweenness_min', # <- rausgeschmissen, da überall 0
-            'betweenness_max',
-            'betweenness_standard_deviation',
-            'average_clustering',
-            'powerlaw_alpha_value',
-            'powerlaw_xmin_value',
-            'assortativity_coefficient'
+    'node_count',
+    'edge_count',
+    'average_degree',
+    'median_degree',
+    'diameter',
+    'average_distance',
+    'betweenness_average',
+    # 'betweenness_min', # <- rausgeschmissen, da überall 0
+    'betweenness_max',
+    'betweenness_standard_deviation',
+    'average_clustering',
+    'powerlaw_alpha_value',
+    'powerlaw_xmin_value',
+    'assortativity_coefficient'
 ]

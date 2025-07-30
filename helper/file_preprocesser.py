@@ -3,9 +3,11 @@ import string
 import networkx as nx
 import nltk
 import simplemma
+
 # from HanTa import HanoverTagger as ht
 
 WHITELIST = string.ascii_lowercase + "äüöß "
+
 
 def extract_metadata_from_file_name(file_name):
     splitted_name = file_name[:-4].split("_")
@@ -14,16 +16,17 @@ def extract_metadata_from_file_name(file_name):
     language = splitted_name[2]
     return author, title, language
 
+
 # TAGGER_DE = ht.HanoverTagger('morphmodel_ger.pgz') #for POS Tagging
 # TAGGER_EN = ht.HanoverTagger('morphmodel_en.pgz')
-#erster Anlauf ohne "ausgiebige" Nutzung anderer Module außer dem Lemmatizer.
-#greedy=stronger reduction, might be closer to stemming (Wörter auf Wortstamm) than lemmatization (Flexation -> Grundform)
+# erster Anlauf ohne "ausgiebige" Nutzung anderer Module außer dem Lemmatizer.
+# greedy=stronger reduction, might be closer to stemming (Wörter auf Wortstamm) than lemmatization (Flexation -> Grundform)
 def prepare_text(text, lemmatize=True, greedy=False):
     text = text.replace("\n", " ").strip().lower()
     text = "".join([c for c in text if c in WHITELIST])
     text = [word for word in text.split(" ") if len(word) > 0]
     if lemmatize:
-        text = [ simplemma.lemmatize(token, lang='de', greedy=greedy) for token in text ]
+        text = [simplemma.lemmatize(token, lang='de', greedy=greedy) for token in text]
     return text
 
 
@@ -37,7 +40,6 @@ def prepare_text_with_libraries(text: str, filterNouns=False, remove_stopwords=T
     # if filterNouns:
     #     t = filterNounsAndNames(t)
 
-
     return t
 
 
@@ -49,7 +51,6 @@ def prepare_text_with_libraries(text: str, filterNouns=False, remove_stopwords=T
 #         graph.add_edge(tokens[i], tokens[i + 1])
 #
 #     return graph
-
 
 
 # Aktualisierte, verbesserte Methode
@@ -65,18 +66,19 @@ def convert_preprocessed_tokens_to_graph(tokens, neighbour_distance):
     return graph
 
 
-
-#removes stopwords, punctuation, and every non alphabetic token
+# removes stopwords, punctuation, and every non alphabetic token
 def filter_tokens(text: list, remove_stopwords=False, language="de") -> list[str]:
     punctuation = set(string.punctuation)
     if not remove_stopwords:
-        return [ word for word in text if not word.isdigit() and word not in punctuation ]
+        return [word for word in text if not word.isdigit() and word not in punctuation]
     stop = get_stopwords(language)
     stop_and_punctuation = stop.union(punctuation)
-    return [ word for word in text if not word.isdigit() and word.lower() not in stop_and_punctuation ]
+    return [word for word in text if not word.isdigit() and word.lower() not in stop_and_punctuation]
+
 
 def lemmatize(text: list, greedy=True, language="de"):
-    return [ simplemma.lemmatize(token, lang=language, greedy=greedy) for token in text ]
+    return [simplemma.lemmatize(token, lang=language, greedy=greedy) for token in text]
+
 
 #### Hilfsmethoden
 def tokenize(text: str, language="de"):
@@ -87,6 +89,7 @@ def tokenize(text: str, language="de"):
     else:
         raise ValueError("language must be de or en")
     return nltk.word_tokenize(text, language=lang)
+
 
 def get_stopwords(language):
     if language == "de":
@@ -100,7 +103,7 @@ def get_stopwords(language):
 #     keepTags = [ "NN", "NE" ] #NN = Noun, NE = Name
 #     return [ word for word in token if any(tag in getTags(word, language=language) for tag in keepTags) ]
 
-#Tagger sollte aus Performancegründen nicht mit jedem Aufruf geladen werden. Daher global.
+# Tagger sollte aus Performancegründen nicht mit jedem Aufruf geladen werden. Daher global.
 # def getTags(word, language="de"):
 #     if language == "de":
 #         tagger = TAGGER_DE
