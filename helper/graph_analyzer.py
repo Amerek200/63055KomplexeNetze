@@ -79,7 +79,6 @@ def group_by_power_of_two(deg_prob_dict, group_method="lower"):
             bucket = 2 ** int(np.floor(np.log2(deg)))
         elif group_method == "upper":
             bucket = 2 ** int(np.ceil(np.log2(deg)))
-        # print(str.format("deg: {0}, bin: {1}", deg, bucket))
         if bucket not in bucket_dict:
             bucket_dict[bucket] = prob
         else:

@@ -17,10 +17,6 @@ def extract_metadata_from_file_name(file_name):
     return author, title, language
 
 
-# TAGGER_DE = ht.HanoverTagger('morphmodel_ger.pgz') #for POS Tagging
-# TAGGER_EN = ht.HanoverTagger('morphmodel_en.pgz')
-# erster Anlauf ohne "ausgiebige" Nutzung anderer Module außer dem Lemmatizer.
-# greedy=stronger reduction, might be closer to stemming (Wörter auf Wortstamm) than lemmatization (Flexation -> Grundform)
 def prepare_text(text, lemmatize=True, greedy=False):
     text = text.replace("\n", " ").strip().lower()
     text = "".join([c for c in text if c in WHITELIST])
@@ -35,22 +31,8 @@ def prepare_text_with_libraries(text: str, filterNouns=False, remove_stopwords=T
     t = tokenize(text, language=language)
     t = filter_tokens(lemmatize(t, language=language), remove_stopwords=remove_stopwords, language=language)
 
-    # Solange imports nicht funktionieren, können auch keine Nomen gefiltert werden
-
-    # if filterNouns:
-    #     t = filterNounsAndNames(t)
-
     return t
 
-
-# def convert_preprocessed_tokens_to_graph(tokens):
-#     graph = nx.Graph()
-#     total_tokens = len(tokens)
-#
-#     for i in range(len(tokens) - 1):
-#         graph.add_edge(tokens[i], tokens[i + 1])
-#
-#     return graph
 
 
 # Aktualisierte, verbesserte Methode
@@ -61,7 +43,6 @@ def convert_preprocessed_tokens_to_graph(tokens, neighbour_distance):
     for i in range(len(tokens) - neighbour_distance):
         for d in range(1, neighbour_distance + 1):
             graph.add_edge(tokens[i], tokens[i + d])
-        # graph.add_edge(tokens[i], tokens[i + 1])
 
     return graph
 
@@ -98,17 +79,3 @@ def get_stopwords(language):
         return set(nltk.corpus.stopwords.words("english"))
     else:
         raise ValueError("language must be de or en")
-
-# def filterNounsAndNames(token : list[str], language="de"):
-#     keepTags = [ "NN", "NE" ] #NN = Noun, NE = Name
-#     return [ word for word in token if any(tag in getTags(word, language=language) for tag in keepTags) ]
-
-# Tagger sollte aus Performancegründen nicht mit jedem Aufruf geladen werden. Daher global.
-# def getTags(word, language="de"):
-#     if language == "de":
-#         tagger = TAGGER_DE
-#     elif language == "en":
-#         tagger = TAGGER_EN
-#     else:
-#         raise ValueError("language must be de or en")
-#     return [ res[0] for res in tagger.tag_word(word) ] #res[0] = tag, res[1] = propability
